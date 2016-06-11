@@ -1,0 +1,106 @@
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    border: 1px solid saddlebrown;
+}
+
+.content {
+    width: 58%;
+    border-right: 1px solid gainsboro;
+}
+
+.receipt {
+    width: 40%;
+    margin-left: 1%;
+    vertical-align: top;
+}
+
+.shop {
+    min-height: 200px;
+    padding: 1em;
+}
+
+.cart {
+    min-height: 200px;
+    margin-top: 1em;
+}
+
+.calculate {
+    padding: 1em 0;
+    text-align: right;
+}
+
+.title {
+    text-align: center;
+    border-bottom: 1px solid gainsboro;
+    font-size: x-large;
+    padding: 0.5em 0;
+}
+
+.item {
+    border-bottom: 1px solid gainsboro;
+    margin-top: 0.5em;
+    padding: 0.5em 0;
+}
+
+.logo {
+    width: 20%;
+}
+
+.logo img {
+    width: 100%;
+}
+
+.name {
+    width: 25%;
+    margin-left: 1em;
+    vertical-align: top;
+}
+
+.price, .count {
+    width: 10%;
+    margin-left: 1em;
+    vertical-align: top;
+}
+
+.deal {
+    width: 15%;
+    margin-left: 1em;
+    vertical-align: top;
+}
+
+.total {
+    margin-right: 2em;
+}
+
+.count input {
+    width: 70%;
+    font-size: 12px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+}
+
+.buy {
+    height: 30px;
+    line-height: 30px;
+    margin-top: 1em;
+}
+
+.receipt-header {
+    border-bottom: 1px dashed gray;
+    padding: 0.5em 0;
+}
+
+.receipt-items, .receipt-free {
+    margin-top: 0.5em;
+    padding: 0.5em 0;
+    border-bottom: 1px dashed gray;
+    font-size: 15px;
+}
+
+.receipt-total {
+    margin-top: 0.5em;
+    padding: 0.5em 0;
+
+}

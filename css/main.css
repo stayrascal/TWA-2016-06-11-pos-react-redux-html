@@ -1,0 +1,29 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.money {
+    color: #F40;
+    font-family: Verdana, Arial;
+}
+
+.btn {
+    display: block;
+    text-align: center;
+    background-color: #F94700;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 2px;
+    height: 25px;
+    line-height: 25px;
+}
