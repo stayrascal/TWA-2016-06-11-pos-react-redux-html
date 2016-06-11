@@ -6,19 +6,22 @@ import configureStore from './store/configureStore'
 const initalState = {
     items:[{
         barcode: 'ITEM-001',
-        name: '全国联通全国流量充值500M手机流量包流量卡自动充值当月有效1',
+        name: '可口可乐',
         logo: 'images/logo.jpg',
-        price:'27.5'
+        price:'3',
+        unit: '瓶'
     },{
         barcode: 'ITEM-002',
-        name: '全国联通全国流量充值500M手机流量包流量卡自动充值当月有效2',
+        name: '羽毛球',
         logo: 'images/logo.jpg',
-        price:'28.5'
+        price:'1',
+        unit: '个'
     },{
         barcode: 'ITEM-003',
-        name: '全国联通全国流量充值500M手机流量包流量卡自动充值当月有效3',
+        name: '苹果',
         logo: 'images/logo.jpg',
-        price:'29.5'
+        price:'5.5',
+        unit: '斤'
     }],
     cartItems:[],
     receipt:{
