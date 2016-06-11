@@ -7,7 +7,7 @@ export default function cartItems(state = [], action) {
             if (status){
                 return state.map(cartItem =>cartItem.barcode === action.item.barcode ? Object.assign({}, cartItem, {count: parseInt(cartItem.count) + 1}) : cartItem)
             }else {
-                return [Object.assign({}, action.item, {count:1})]
+                return [...state, Object.assign({}, action.item, {count:1})]
             }
         case REMOVE_ITEM_FROM_CART:
             return state.filter(cartItem => cartItem.barcode !== action.barcode);

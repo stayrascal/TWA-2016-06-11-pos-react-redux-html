@@ -15,7 +15,11 @@ class App extends Component {
             <div className="container">
                 <div className="content inline-block">
                     <Shop addItemToCart={actions.addItemToCart} items={items}/>
-                    <Cart changeCount={actions.changeItemCount} remove={actions.removeItemFromCart} cartItems={cartItems}/>
+                    <Cart
+                        changeCount={actions.changeItemCount}
+                        remove={actions.removeItemFromCart}
+                        calculate={actions.calculateAmount}
+                        cartItems={cartItems}/>
                 </div>
                 <Receipt actions={actions} cartItems={cartItems} receipt={receipt}/>
             </div>

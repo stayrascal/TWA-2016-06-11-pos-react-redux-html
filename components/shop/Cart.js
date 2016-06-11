@@ -4,6 +4,15 @@ import CartItem from './CartItem'
 
 export default class Cart extends Component {
 
+    renderCalculateButton() {
+        if (this.props.cartItems.length > 0) {
+            return (
+                <div className="item">
+                    <a className="btn" onClick={e => this.props.calculate(this.props.cartItems)}>结算</a>
+                </div>
+            )
+        }
+    }
 
     renderCartItems() {
         return this.props.cartItems.map((cartItem, index) =>
@@ -21,6 +30,7 @@ export default class Cart extends Component {
                 <div className="list">
                     {this.renderCartItems()}
                 </div>
+                {this.renderCalculateButton()}
             </div>
         )
     }

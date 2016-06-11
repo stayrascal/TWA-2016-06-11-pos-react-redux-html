@@ -5,19 +5,19 @@ import App from './App'
 import configureStore from './store/configureStore'
 const initalState = {
     items:[{
-        barcode: 'ITEM-001',
+        barcode: 'ITEM000000',
         name: '可口可乐',
         logo: 'images/logo.jpg',
         price:'3',
         unit: '瓶'
     },{
-        barcode: 'ITEM-002',
+        barcode: 'ITEM000001',
         name: '羽毛球',
         logo: 'images/logo.jpg',
         price:'1',
         unit: '个'
     },{
-        barcode: 'ITEM-003',
+        barcode: 'ITEM000005',
         name: '苹果',
         logo: 'images/logo.jpg',
         price:'5.5',

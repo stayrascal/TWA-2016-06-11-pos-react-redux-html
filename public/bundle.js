@@ -66,19 +66,19 @@
 
 	var initalState = {
 	    items: [{
-	        barcode: 'ITEM-001',
+	        barcode: 'ITEM000000',
 	        name: '可口可乐',
 	        logo: 'images/logo.jpg',
 	        price: '3',
 	        unit: '瓶'
 	    }, {
-	        barcode: 'ITEM-002',
+	        barcode: 'ITEM000001',
 	        name: '羽毛球',
 	        logo: 'images/logo.jpg',
 	        price: '1',
 	        unit: '个'
 	    }, {
-	        barcode: 'ITEM-003',
+	        barcode: 'ITEM000005',
 	        name: '苹果',
 	        logo: 'images/logo.jpg',
 	        price: '5.5',
@@ -21988,7 +21988,11 @@
 	                    'div',
 	                    { className: 'content inline-block' },
 	                    _react2.default.createElement(_Shop2.default, { addItemToCart: actions.addItemToCart, items: items }),
-	                    _react2.default.createElement(_Cart2.default, { changeCount: actions.changeItemCount, remove: actions.removeItemFromCart, cartItems: cartItems })
+	                    _react2.default.createElement(_Cart2.default, {
+	                        changeCount: actions.changeItemCount,
+	                        remove: actions.removeItemFromCart,
+	                        calculate: actions.calculateAmount,
+	                        cartItems: cartItems })
 	                ),
 	                _react2.default.createElement(_Receipt2.default, { actions: actions, cartItems: cartItems, receipt: receipt })
 	            );
@@ -22189,10 +22193,10 @@
 	    _createClass(ItemsInfo, [{
 	        key: "renderItemInfo",
 	        value: function renderItemInfo() {
-	            return this.props.itemsInfo.map(function (itemInfo) {
+	            return this.props.itemsInfo.map(function (itemInfo, index) {
 	                return _react2.default.createElement(
 	                    "div",
-	                    null,
+	                    { key: index },
 	                    "名称：",
 	                    itemInfo.name,
 	                    "，数量：",
@@ -22201,7 +22205,7 @@
 	                    "，单价：",
 	                    itemInfo.price,
 	                    "(元)，小计：",
-	                    itemInfo.subTotal,
+	                    itemInfo.actualSubTotal,
 	                    "(元)"
 	                );
 	            });
@@ -22263,14 +22267,14 @@
 	    _createClass(FreeItemsInfo, [{
 	        key: "renderFreeItemInfo",
 	        value: function renderFreeItemInfo(freeItemsInfo) {
-	            return freeItemsInfo.map(function (freeItem) {
+	            return freeItemsInfo.map(function (freeItem, index) {
 	                return _react2.default.createElement(
 	                    "div",
-	                    null,
+	                    { key: index },
 	                    "名称：",
 	                    freeItem.name,
 	                    "，数量：",
-	                    freeItem.count,
+	                    freeItem.freeCount,
 	                    freeItem.unit
 	                );
 	            });
@@ -22279,7 +22283,7 @@
 	        key: "render",
 	        value: function render() {
 	            var freeItemsInfo = this.props.freeItemsInfo;
-	            if (freeItemsInfo.size > 0) {
+	            if (freeItemsInfo.length > 0) {
 	                return _react2.default.createElement(
 	                    "div",
 	                    { className: "receipt-free" },
@@ -22652,15 +22656,34 @@
 	    }
 
 	    _createClass(Cart, [{
+	        key: 'renderCalculateButton',
+	        value: function renderCalculateButton() {
+	            var _this2 = this;
+
+	            if (this.props.cartItems.length > 0) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: 'item' },
+	                    _react2.default.createElement(
+	                        'a',
+	                        { className: 'btn', onClick: function onClick(e) {
+	                                return _this2.props.calculate(_this2.props.cartItems);
+	                            } },
+	                        '结算'
+	                    )
+	                );
+	            }
+	        }
+	    }, {
 	        key: 'renderCartItems',
 	        value: function renderCartItems() {
-	            var _this2 = this;
+	            var _this3 = this;
 
 	            return this.props.cartItems.map(function (cartItem, index) {
 	                return _react2.default.createElement(_CartItem2.default, {
-	                    changeCount: _this2.props.changeCount,
+	                    changeCount: _this3.props.changeCount,
 	                    remove: function remove(e) {
-	                        return _this2.props.remove(cartItem.barcode);
+	                        return _this3.props.remove(cartItem.barcode);
 	                    },
 	                    cartItem: cartItem,
 	                    key: index });
@@ -22681,7 +22704,8 @@
 	                    'div',
 	                    { className: 'list' },
 	                    this.renderCartItems()
-	                )
+	                ),
+	                this.renderCalculateButton()
 	            );
 	        }
 	    }]);
@@ -22874,6 +22898,8 @@
 
 	var _ActionTypes = __webpack_require__(192);
 
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	function cartItems() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	    var action = arguments[1];
@@ -22888,7 +22914,7 @@
 	                    return cartItem.barcode === action.item.barcode ? Object.assign({}, cartItem, { count: parseInt(cartItem.count) + 1 }) : cartItem;
 	                });
 	            } else {
-	                return [Object.assign({}, action.item, { count: 1 })];
+	                return [].concat(_toConsumableArray(state), [Object.assign({}, action.item, { count: 1 })]);
 	            }
 	        case _ActionTypes.REMOVE_ITEM_FROM_CART:
 	            return state.filter(function (cartItem) {
@@ -22937,6 +22963,12 @@
 
 	var _ActionTypes = __webpack_require__(192);
 
+	var _Promotion = __webpack_require__(207);
+
+	var _Promotion2 = _interopRequireDefault(_Promotion);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	function receipt() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	    var action = arguments[1];
@@ -22949,19 +22981,94 @@
 	    }
 	}
 
-	function calculate(state, items) {
-	    var itemsWithSubtotal = calculateSubtotal(items);
-	    return state;
-	}
-
 	function calculateSubtotal(items) {
 	    return items.map(function (item) {
 	        return Object.assign({
-	            subTotal: item.price * item.quantity,
+	            subTotal: item.price * item.count,
 	            savingCost: 0,
-	            freeQuantity: 0
+	            freeCount: 0
 	        }, item);
 	    });
+	}
+
+	function calculateCostInfo(items) {
+	    var resultObj = { originCost: 0.0, savingCost: 0.0, actualCost: 0.0 };
+	    items.forEach(function (item) {
+	        resultObj.originCost += item.subTotal;
+	        resultObj.savingCost += item.savingCost;
+	    });
+	    resultObj.actualCost = resultObj.originCost - resultObj.savingCost;
+	    return resultObj;
+	}
+
+	function getFreeItems(cartItems) {
+	    return cartItems.filter(function (item) {
+	        return item.freeCount > 0;
+	    });
+	}
+
+	function calculateActualSubTotal(items) {
+	    return items.map(function (item) {
+	        return Object.assign({
+	            actualSubTotal: item.subTotal - item.savingCost
+	        }, item);
+	    });
+	}
+
+	function applyPromotionsOnCartItems(items, promotions) {
+	    items.map(function (item) {
+	        promotions.forEach(function (promotion) {
+	            promotionStrategy[promotion.type](promotion, item);
+	        });
+	    });
+	}
+
+	var promotionStrategy = {
+	    'BUY_TWO_GET_ONE_FREE': function BUY_TWO_GET_ONE_FREE(promotion, item) {
+
+	        promotion.barcodes.forEach(function (barcode) {
+	            if (barcode === item.barcode) {
+	                item.freeCount = parseInt(item.count / 3);
+	                item.savingCost = item.freeCount * item.price;
+	            }
+	        });
+	    }
+	};
+
+	function loadPromotions() {
+	    return [new _Promotion2.default('BUY_TWO_GET_ONE_FREE', ['ITEM000000', 'ITEM000001', 'ITEM000005'])];
+	}
+
+	function calculate(state, items) {
+
+	    var itemsWithSubtotal = calculateSubtotal(items);
+
+	    applyPromotionsOnCartItems(itemsWithSubtotal, loadPromotions());
+
+	    var costInfo = calculateCostInfo(itemsWithSubtotal);
+	    var freeItems = getFreeItems(itemsWithSubtotal);
+	    var itemsWithActualSubTotal = calculateActualSubTotal(itemsWithSubtotal);
+
+	    return Object.assign({}, state, {
+	        itemsInfo: itemsWithActualSubTotal,
+	        freeItemsInfo: freeItems,
+	        costInfo: costInfo
+	    });
+	}
+
+/***/ },
+/* 207 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Promotion;
+	function Promotion(type, barcodes) {
+	    this.type = type;
+	    this.barcodes = barcodes || [];
 	}
 
 /***/ }
