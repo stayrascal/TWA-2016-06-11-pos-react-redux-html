@@ -5,16 +5,9 @@ export default function cartItems(state = [], action) {
         case ADD_ITEM_TO_CART:
             var status = state.find(cartItem => cartItem.barcode === action.item.barcode);
             if (status){
-                return state.map(cartItem =>cartItem.barcode === action.item.barcode ? Object.assign({}, cartItem, {count: cartItem.count + 1}) : cartItem)
+                return state.map(cartItem =>cartItem.barcode === action.item.barcode ? Object.assign({}, cartItem, {count: parseInt(cartItem.count) + 1}) : cartItem)
             }else {
-                /*return [...state, {
-                    barcode: action.item.barcode,
-                    logo: action.item.logo,
-                    count: 1,
-                    name: action.item.name,
-                    price: action.item.price
-                }];*/
-                return Object.assign({}, action.item, {count:1})
+                return [Object.assign({}, action.item, {count:1})]
             }
         case REMOVE_ITEM_FROM_CART:
             return state.filter(cartItem => cartItem.barcode !== action.barcode);

@@ -22885,17 +22885,10 @@
 	            });
 	            if (status) {
 	                return state.map(function (cartItem) {
-	                    return cartItem.barcode === action.item.barcode ? Object.assign({}, cartItem, { count: cartItem.count + 1 }) : cartItem;
+	                    return cartItem.barcode === action.item.barcode ? Object.assign({}, cartItem, { count: parseInt(cartItem.count) + 1 }) : cartItem;
 	                });
 	            } else {
-	                /*return [...state, {
-	                    barcode: action.item.barcode,
-	                    logo: action.item.logo,
-	                    count: 1,
-	                    name: action.item.name,
-	                    price: action.item.price
-	                }];*/
-	                return Object.assign({}, action.item, { count: 1 });
+	                return [Object.assign({}, action.item, { count: 1 })];
 	            }
 	        case _ActionTypes.REMOVE_ITEM_FROM_CART:
 	            return state.filter(function (cartItem) {
@@ -22957,7 +22950,18 @@
 	}
 
 	function calculate(state, items) {
+	    var itemsWithSubtotal = calculateSubtotal(items);
 	    return state;
+	}
+
+	function calculateSubtotal(items) {
+	    return items.map(function (item) {
+	        return Object.assign({
+	            subTotal: item.price * item.quantity,
+	            savingCost: 0,
+	            freeQuantity: 0
+	        }, item);
+	    });
 	}
 
 /***/ }

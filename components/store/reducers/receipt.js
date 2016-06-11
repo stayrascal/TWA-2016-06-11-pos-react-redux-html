@@ -11,5 +11,16 @@ export default function receipt(state = [], action) {
 }
 
 function calculate(state, items){
+    let itemsWithSubtotal = calculateSubtotal(items);
     return state;
+}
+
+function calculateSubtotal(items) {
+    return items.map(item => {
+        return Object.assign({
+            subTotal: item.price * item.quantity,
+            savingCost: 0,
+            freeQuantity: 0
+        }, item);
+    })
 }
